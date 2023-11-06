@@ -9,7 +9,7 @@ output "keyring_name" {
 }
 
 output "key_id" {
-  value = join("", google_kms_crypto_key.key[*].id)
+  value       = join("", google_kms_crypto_key.key[*].id)
   description = "An identifier for the resource with format"
 }
 

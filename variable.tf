@@ -46,22 +46,10 @@ variable "location" {
   description = "Location for the keyring."
 }
 
-variable "labels" {
-  type        = map(string)
-  default     = {}
-  description = "Labels, provided as a map"
-}
-
 variable "service_accounts" {
   type        = list(string)
   default     = []
   description = "List of comma-separated owners for each key declared in set_owners_for."
-}
-
-variable "destroy_scheduled_duration" {
-  type        = number
-  default     = 0
-  description = "(Optional) The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED. If not specified at creation time, the default duration is 24 hours."
 }
 
 variable "google_kms_crypto_key_enabled" {
