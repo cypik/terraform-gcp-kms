@@ -12,6 +12,6 @@ module "kms_key" {
   name             = "app"
   environment      = "test"
   location         = "asia-northeast1"
-  service_accounts = ["serviceAccount:891917862845-compute@developer.gserviceaccount.com"]
+  service_accounts = ["serviceAccount:xxxxxxxxx-compute@developer.gserviceaccount.com"]
   role             = "roles/editor"
 }
