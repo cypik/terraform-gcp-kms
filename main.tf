@@ -1,10 +1,13 @@
 module "labels" {
-  source      = "git::git@github.com:opz0/terraform-gcp-labels.git?ref=master"
+  source      = "git::https://github.com/opz0/terraform-gcp-labels.git?ref=v1.0.0"
   name        = var.name
   environment = var.environment
   label_order = var.label_order
   managedby   = var.managedby
   repository  = var.repository
+}
+
+data "google_client_config" "current" {
 }
 
 #####==============================================================================
@@ -13,7 +16,7 @@ module "labels" {
 resource "google_kms_key_ring" "key_ring" {
   count    = var.google_kms_key_ring_enabled && var.enabled ? 1 : 0
   name     = format("%s-ring", module.labels.id)
-  project  = var.project_id
+  project  = data.google_client_config.current.project
   location = var.location
 }
 
@@ -66,4 +69,3 @@ resource "google_kms_crypto_key_iam_binding" "owners" {
   crypto_key_id = join("", google_kms_crypto_key.key.*.id)
   members       = compact(split(",", var.service_accounts[count.index]))
 }
-

@@ -40,12 +40,6 @@ variable "enabled" {
   description = "A boolean flag to enable/disable service-account ."
 }
 
-variable "project_id" {
-  type        = string
-  default     = "opz0-397319"
-  description = "(Optional) The ID of the project in which the resource belongs. If it is not provided, the provider project is used."
-}
-
 variable "location" {
   type        = string
   default     = "asia"
@@ -111,4 +105,3 @@ variable "role" {
   default     = ""
   description = "this role use for permissions"
 }
-
