@@ -1,5 +1,5 @@
 provider "google" {
-  project = "opz0-397319"
+  project = "local-concord-408802"
   region  = "asia-northeast1"
   zone    = "asia-northeast1-a"
 }
@@ -12,6 +12,6 @@ module "kms_key" {
   name             = "app"
   environment      = "test"
   location         = "asia-northeast1"
-  service_accounts = ["serviceAccount:xxxxxxxxx-compute@developer.gserviceaccount.com"]
+  service_accounts = ["serviceAccount:985070905024-compute@developer.gserviceaccount.com"]
   role             = "roles/editor"
 }

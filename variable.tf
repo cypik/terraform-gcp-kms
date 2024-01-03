@@ -28,7 +28,7 @@ variable "repository" {
   description = "Terraform current module repo"
 }
 
-variable "google_kms_key_ring_enabled" {
+variable "kms_key_ring_enabled" {
   type        = bool
   default     = true
   description = "Set to false to prevent the module from creating any resources."
@@ -52,13 +52,13 @@ variable "service_accounts" {
   description = "List of comma-separated owners for each key declared in set_owners_for."
 }
 
-variable "google_kms_crypto_key_enabled" {
+variable "kms_crypto_key_enabled" {
   type        = bool
   default     = true
   description = "Set to false to prevent the module from creating any resources."
 }
 
-variable "google_kms_crypto_key_iam_binding_enabled" {
+variable "kms_crypto_key_iam_binding_enabled" {
   type        = bool
   default     = true
   description = "Set to false to prevent the module from creating any resources."
