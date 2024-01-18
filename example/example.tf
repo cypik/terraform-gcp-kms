@@ -9,7 +9,7 @@ provider "google" {
 #####==============================================================================
 module "kms_key" {
   source           = ".././"
-  name             = "app"
+  name             = "avddfpp"
   environment      = "test"
   location         = "asia-northeast1"
   service_accounts = ["serviceAccount:985070905024-compute@developer.gserviceaccount.com"]
