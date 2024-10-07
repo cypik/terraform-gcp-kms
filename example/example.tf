@@ -8,8 +8,8 @@ provider "google" {
 ##### kms_key module call .
 #####==============================================================================
 module "kms_key" {
-  source      = ".."
-  name        = "appjsjj"
+  source      = "./../"
+  name        = "app"
   environment = "test"
   location    = "global"
 }
