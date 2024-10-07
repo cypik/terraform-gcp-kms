@@ -3,13 +3,8 @@ output "key_id" {
   description = "An identifier for the resource with format"
 }
 
-output "keyring" {
-  value       = module.kms_key.keyring
-  description = "Self link of the keyring."
-}
-
 output "keyring_name" {
-  value       = module.kms_key.keyring_name
+  value       = module.kms_key.keyring_names
   description = "Name of the keyring."
 }
 
