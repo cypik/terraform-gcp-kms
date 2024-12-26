@@ -18,11 +18,13 @@ To use this module, you should have Terraform installed and configured for GCP. 
 
 ```hcl
 module "kms_key" {
-  source           = "cypik/kms/google"
-  version          = "1.0.2"
-  name             = "app"
-  environment      = "test"
-  location         = "global"
+  source      = "cypik/kms/google"
+  version     = "1.0.3"
+  name        = "app"
+  environment = "test"
+  location    = "global"
+  keys        = ["test"]
+  role        = ["roles/cloudkms.cryptoKeyEncrypterDecrypter", "roles/cloudkms.cryptoKeyViewer"]
 }
 ```
 This example demonstrates how to create various GCP resources using the provided modules. Adjust the input values to suit your specific requirements.
@@ -65,8 +67,11 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | [google_kms_crypto_key_iam_binding.decrypters](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_crypto_key_iam_binding) | resource |
 | [google_kms_crypto_key_iam_binding.encrypters](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_crypto_key_iam_binding) | resource |
 | [google_kms_crypto_key_iam_binding.owners](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_crypto_key_iam_binding) | resource |
+| [google_kms_crypto_key_iam_member.key_encryption_role](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_crypto_key_iam_member) | resource |
 | [google_kms_key_ring.key_ring](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_key_ring) | resource |
+| [google_kms_key_ring_iam_member.kms_key_access](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/kms_key_ring_iam_member) | resource |
 | [google_client_config.current](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_config) | data source |
+| [google_storage_project_service_account.gcs_account](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/storage_project_service_account) | data source |
 
 ## Inputs
 
@@ -83,6 +88,7 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | <a name="input_key_destroy_scheduled_duration"></a> [key\_destroy\_scheduled\_duration](#input\_key\_destroy\_scheduled\_duration) | Set the period of time that versions of keys spend in the DESTROY\_SCHEDULED state before transitioning to DESTROYED. | `string` | `null` | no |
 | <a name="input_key_protection_level"></a> [key\_protection\_level](#input\_key\_protection\_level) | The protection level to use when creating a version based on this template. Default value: "SOFTWARE" Possible values: ["SOFTWARE", "HSM"] | `string` | `"SOFTWARE"` | no |
 | <a name="input_key_rotation_period"></a> [key\_rotation\_period](#input\_key\_rotation\_period) | Generate a new key every time this period passes. | `string` | `"100000s"` | no |
+| <a name="input_keys"></a> [keys](#input\_keys) | List of keys | `list(string)` | n/a | yes |
 | <a name="input_kms_key_ring_enabled"></a> [kms\_key\_ring\_enabled](#input\_kms\_key\_ring\_enabled) | Set to false to prevent the module from creating any resources. | `bool` | `true` | no |
 | <a name="input_label_order"></a> [label\_order](#input\_label\_order) | Label order, e.g. sequence of application name and environment `name`,`environment`,'attribute' [`webserver`,`qa`,`devops`,`public`,] . | `list(string)` | <pre>[<br>  "name",<br>  "environment"<br>]</pre> | no |
 | <a name="input_labels"></a> [labels](#input\_labels) | Labels, provided as a map | `map(string)` | `{}` | no |
@@ -93,6 +99,7 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | <a name="input_prevent_destroy"></a> [prevent\_destroy](#input\_prevent\_destroy) | Set the prevent\_destroy lifecycle attribute on keys. | `bool` | `true` | no |
 | <a name="input_purpose"></a> [purpose](#input\_purpose) | The immutable purpose of the CryptoKey. Possible values are ENCRYPT\_DECRYPT, ASYMMETRIC\_SIGN, and ASYMMETRIC\_DECRYPT. | `string` | `"ENCRYPT_DECRYPT"` | no |
 | <a name="input_repository"></a> [repository](#input\_repository) | Terraform current module repo | `string` | `"https://github.com/cypik/terraform-google-kms"` | no |
+| <a name="input_role"></a> [role](#input\_role) | List of roles to assign to the service account for KMS encryption/decryption | `list(string)` | <pre>[<br>  "roles/cloudkms.cryptoKeyEncrypterDecrypter",<br>  "roles/cloudkms.cryptoKeyViewer"<br>]</pre> | no |
 | <a name="input_set_decrypters_for"></a> [set\_decrypters\_for](#input\_set\_decrypters\_for) | Name of keys for which decrypters will be set. | `list(string)` | `[]` | no |
 | <a name="input_set_encrypters_for"></a> [set\_encrypters\_for](#input\_set\_encrypters\_for) | Name of keys for which encrypters will be set. | `list(string)` | `[]` | no |
 | <a name="input_set_owners_for"></a> [set\_owners\_for](#input\_set\_owners\_for) | Name of keys for which owners will be set. | `list(string)` | `[]` | no |

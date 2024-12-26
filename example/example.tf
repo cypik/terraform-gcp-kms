@@ -12,4 +12,6 @@ module "kms_key" {
   name        = "app"
   environment = "test"
   location    = "global"
+  keys        = ["test"]
+  role        = ["roles/cloudkms.cryptoKeyEncrypterDecrypter", "roles/cloudkms.cryptoKeyViewer"]
 }
