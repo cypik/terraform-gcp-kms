@@ -1,6 +1,6 @@
 variable "name" {
   type        = string
-  default     = "test"
+  default     = ""
   description = "Name of the resource. Provided by the client when the resource is created. "
 }
 
@@ -65,9 +65,9 @@ variable "key_protection_level" {
 }
 
 variable "key_rotation_period" {
-  description = "Generate a new key every time this period passes."
   type        = string
   default     = "100000s"
+  description = "Generate a new key every time this period passes."
 }
 
 variable "purpose" {
@@ -77,73 +77,60 @@ variable "purpose" {
 }
 
 variable "prevent_destroy" {
-  description = "Set the prevent_destroy lifecycle attribute on keys."
   type        = bool
   default     = true
+  description = "Set the prevent_destroy lifecycle attribute on keys."
 }
 
 variable "key_destroy_scheduled_duration" {
-  description = "Set the period of time that versions of keys spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED."
   type        = string
   default     = null
+  description = "Set the period of time that versions of keys spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED."
 }
 
-variable "set_owners_for" {
-  description = "Name of keys for which owners will be set."
+variable "set_kms_binding_for" {
   type        = list(string)
   default     = []
+  description = "Name of keys for which kms_binding will be set."
 }
 
-variable "owners" {
-  description = "List of comma-separated owners for each key declared in set_owners_for."
+variable "kms_binding" {
   type        = list(string)
   default     = []
-}
-
-variable "set_encrypters_for" {
-  description = "Name of keys for which encrypters will be set."
-  type        = list(string)
-  default     = []
-}
-
-variable "encrypters" {
-  description = "List of comma-separated owners for each key declared in set_encrypters_for."
-  type        = list(string)
-  default     = []
-}
-
-variable "set_decrypters_for" {
-  description = "Name of keys for which decrypters will be set."
-  type        = list(string)
-  default     = []
-}
-
-variable "decrypters" {
-  description = "List of comma-separated owners for each key declared in set_decrypters_for."
-  type        = list(string)
-  default     = []
+  description = "List of comma-separated owners for each key declared in set_kms_binding_for."
 }
 
 variable "labels" {
   type        = map(string)
-  description = "Labels, provided as a map"
   default     = {}
+  description = "Labels, provided as a map"
 }
 
 variable "import_only" {
   type        = bool
-  description = "Whether these keys may contain imported versions only."
   default     = false
+  description = "Whether these keys may contain imported versions only."
 }
 
 variable "skip_initial_version_creation" {
   type        = bool
-  description = "If set to true, the request will create CryptoKeys without any CryptoKeyVersions."
   default     = false
+  description = "If set to true, the request will create CryptoKeys without any CryptoKeyVersions."
 }
 
 variable "crypto_key_backend" {
   type        = string
-  description = "(Optional) The resource name of the backend environment associated with all CryptoKeyVersions within this CryptoKey. The resource name is in the format 'projects//locations//ekmConnections/*' and only applies to 'EXTERNAL_VPC' keys."
   default     = null
+  description = "(Optional) The resource name of the backend environment associated with all CryptoKeyVersions within this CryptoKey. The resource name is in the format 'projects//locations//ekmConnections/*' and only applies to 'EXTERNAL_VPC' keys."
+}
+
+variable "role" {
+  type        = list(string)
+  default     = ["roles/cloudkms.cryptoKeyEncrypterDecrypter", "roles/cloudkms.cryptoKeyViewer"] # Example roles
+  description = "List of roles to assign to the service account for KMS encryption/decryption"
+}
+
+variable "keys" {
+  type        = list(string)
+  description = "List of keys"
 }

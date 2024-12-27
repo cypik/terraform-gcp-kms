@@ -12,3 +12,13 @@ output "etag" {
   value       = module.kms_key.etag
   description = "The etag of the project's IAM policy."
 }
+
+output "keyring_ids" {
+  value       = module.kms_key.keyring_ids
+  description = "List of key ring IDs created in Google Cloud KMS."
+}
+
+output "keys" {
+  value       = module.kms_key.keys
+  description = "Map of key name => key self link."
+}

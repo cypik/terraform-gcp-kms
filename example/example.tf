@@ -9,7 +9,9 @@ provider "google" {
 #####==============================================================================
 module "kms_key" {
   source      = "./../"
-  name        = "app"
+  name        = "apcdssdfdp"
   environment = "test"
   location    = "global"
+  keys        = ["test"]
+  role        = ["roles/cloudkms.cryptoKeyEncrypterDecrypter", "roles/cloudkms.cryptoKeyViewer"]
 }
