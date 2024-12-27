@@ -16,12 +16,9 @@ data "google_storage_project_service_account" "gcs_account" {
 }
 
 locals {
-
   keys_by_name = zipmap(
     var.keys,
-    var.prevent_destroy ?
-    slice(google_kms_crypto_key.key[*].id, 0, length(var.keys)) :
-    slice(google_kms_crypto_key.key_ephemeral[*].id, 0, length(var.keys))
+    slice(google_kms_crypto_key.key[*].id, 0, length(var.keys))
   )
 }
 
@@ -52,46 +49,14 @@ resource "google_kms_crypto_key" "key" {
   labels = var.labels
 }
 
-resource "google_kms_crypto_key" "key_ephemeral" {
-  count                         = var.prevent_destroy ? 1 : 0
-  name                          = format("%s-cryptokey", module.labels.id)
-  key_ring                      = google_kms_key_ring.key_ring[0].id
-  rotation_period               = var.key_rotation_period
-  purpose                       = var.purpose
-  import_only                   = var.import_only
-  skip_initial_version_creation = var.skip_initial_version_creation
-  crypto_key_backend            = var.crypto_key_backend
 
-  destroy_scheduled_duration = var.key_destroy_scheduled_duration
-
-  version_template {
-    algorithm        = var.key_algorithm
-    protection_level = var.key_protection_level
-  }
-
-  labels = var.labels
-}
-
-resource "google_kms_crypto_key_iam_binding" "owners" {
-  count         = length(var.set_owners_for)
-  role          = "roles/owner"
-  crypto_key_id = local.keys_by_name[var.set_owners_for[count.index]]
-  members       = compact(split(",", var.owners[count.index]))
-}
-
-resource "google_kms_crypto_key_iam_binding" "decrypters" {
-  count         = length(var.set_decrypters_for)
+resource "google_kms_crypto_key_iam_binding" "kms_binding" {
+  count         = length(var.set_kms_binding_for)
   role          = var.role[count.index]
-  crypto_key_id = local.keys_by_name[var.set_decrypters_for[count.index]]
-  members       = compact(split(",", var.decrypters[count.index]))
+  crypto_key_id = local.keys_by_name[var.set_kms_binding_for[count.index]]
+  members       = compact(split(",", var.kms_binding[count.index]))
 }
 
-resource "google_kms_crypto_key_iam_binding" "encrypters" {
-  count         = length(var.set_encrypters_for)
-  role          = var.role[count.index]
-  crypto_key_id = local.keys_by_name[element(var.set_encrypters_for, count.index)]
-  members       = compact(split(",", var.encrypters[count.index]))
-}
 
 resource "google_kms_crypto_key_iam_member" "key_encryption_role" {
   crypto_key_id = google_kms_crypto_key.key[0].id

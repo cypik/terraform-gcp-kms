@@ -1,6 +1,6 @@
 variable "name" {
   type        = string
-  default     = "test"
+  default     = ""
   description = "Name of the resource. Provided by the client when the resource is created. "
 }
 
@@ -88,40 +88,16 @@ variable "key_destroy_scheduled_duration" {
   description = "Set the period of time that versions of keys spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED."
 }
 
-variable "set_owners_for" {
+variable "set_kms_binding_for" {
   type        = list(string)
   default     = []
-  description = "Name of keys for which owners will be set."
+  description = "Name of keys for which kms_binding will be set."
 }
 
-variable "owners" {
+variable "kms_binding" {
   type        = list(string)
   default     = []
-  description = "List of comma-separated owners for each key declared in set_owners_for."
-}
-
-variable "set_encrypters_for" {
-  type        = list(string)
-  default     = []
-  description = "Name of keys for which encrypters will be set."
-}
-
-variable "encrypters" {
-  type        = list(string)
-  default     = []
-  description = "List of comma-separated owners for each key declared in set_encrypters_for."
-}
-
-variable "set_decrypters_for" {
-  type        = list(string)
-  default     = []
-  description = "Name of keys for which decrypters will be set."
-}
-
-variable "decrypters" {
-  type        = list(string)
-  default     = []
-  description = "List of comma-separated owners for each key declared in set_decrypters_for."
+  description = "List of comma-separated owners for each key declared in set_kms_binding_for."
 }
 
 variable "labels" {
